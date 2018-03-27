@@ -2,7 +2,7 @@ const readline = require('readline');
 const model=require("./model");
 const {log,biglog,errorlog,colorize}=require("./out");
 const cmds=require("./cmds");
-const net =require('net');
+const net = require('net');
 
 
 net.createServer(socket => {
@@ -23,8 +23,8 @@ const rl = readline.createInterface({
 });
 
 socket
-.on("end" , () => {rl.close();})
-.on("error" , () => {rl.close();})
+.on("end" , () => {rl.close()})
+.on("error" , () => {rl.close()});
 rl.prompt();
 
 rl

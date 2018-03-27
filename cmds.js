@@ -2,6 +2,7 @@ const {models}=require("./model");
 const {log,biglog,errorlog,colorize}=require("./out");
 const Sequelize =  require('sequelize');
 
+
 exports.helpCmd=(socket,rl)=>{
   log(socket,"Comandos:");
   log(socket,"h|help - Muestra ayuda");
