@@ -149,7 +149,7 @@ exports.testCmd = (socket,rl,id) => {
 
 exports.playCmd = (socket,rl) => {
     let score = 0;
-  let toBeResolved = [];
+    let toBeResolved = [];
   
   const playOne = () => {
     return new Promise((resolve,reject) => {
@@ -167,7 +167,7 @@ exports.playCmd = (socket,rl) => {
       .then(answer => {
         if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
           score++;
-          log(socket,"CORRECTO - Lleva ",score, "aciertos");
+          log(socket,`CORRECTO - Lleva "${score} aciertos`);
           resolve(playOne());
         } else {
           log(socket,"INCORRECTO.\nFin del examen. Aciertos:");
