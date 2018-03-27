@@ -8,7 +8,7 @@ const net = require('net');
 net.createServer(socket => {
 
   console.log("Se ha conectado un cliente desde " + socket.remoteAddress);
-  biglog("Core Quiz","green");
+  biglog(socket,"Core Quiz","green");
 
 const rl = readline.createInterface({
   input: socket,

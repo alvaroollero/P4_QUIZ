@@ -18,7 +18,7 @@ exports.helpCmd=(socket,rl)=>{
   rl.prompt();
 };
 
-exports.quitCmd=rl=>{
+exports.quitCmd=(socket,rl)=>{
   rl.close();
   rl.prompt();
 };
@@ -32,7 +32,7 @@ const makeQuestion = (rl,text) => {
   });
 };
 
-exports.addCmd=rl=>{
+exports.addCmd=(socket,rl)=>{
  makeQuestion(rl,'Introduzca una pregunta: ')
  .then(q => {
    return makeQuestion(rl,'Introduzca la respuesta')
@@ -44,14 +44,14 @@ exports.addCmd=rl=>{
    return models.quiz.create(quiz);
  })
  .then((quiz) => {
-   log(`${colorize('Se ha añadido','magenta')}:  ${quiz.question} ${colorize('=>','magenta')} ${quiz.answer}`);
+   log(socket,`${colorize('Se ha añadido','magenta')}:  ${quiz.question} ${colorize('=>','magenta')} ${quiz.answer}`);
  })
  .catch(Sequelize.ValidationError,error=> {
-   errorlog('El quiz es erroneo.');
+   errorlog(socket,'El quiz es erroneo.');
   error.errors.forEach(({message}) => errorlog(message));
  })
  .catch(error => {
-   errorlog(error.message);
+   errorlog(socket,error.message);
  })
  .then(() => {
    rl.prompt();
@@ -69,6 +69,18 @@ exports.listCmd=(socket,rl)=>{
   .then(() => {
     rl.prompt();
   })
+};
+
+exports.deleteCmd = (socket, rl,id)=> {
+    
+    validateId(id)
+    .then(id => models.quiz.destroy({where: {id}}))
+    .catch(error => {
+        errorlog(socket, error.message);
+    })
+    .then(() => {
+        rl.prompt();
+    });
 };
 
 const validateId=id =>{
@@ -209,7 +221,7 @@ exports.editCmd= (socket,rl,id) =>{
   })
   .catch(Sequelize.ValidationError, error => {
     errorlog(socket,'El quiz es erroneo:');
-    error.errors.forEach(({message})=> errorlog(socket,message));
+    error.errors.forEach(({message})=> errorlog(message));
   })
   .catch(error => {
     errorlog(socket,error.message);
@@ -220,7 +232,7 @@ exports.editCmd= (socket,rl,id) =>{
 };
 
 exports.creditsCmd=(socket,rl)=>{
-  log(socket,"Autores de la practica:","green");
+  log(socket,"Autor de la practica:","green");
   log(socket,"ALVARO OLLERO","green");
   rl.prompt();
 };
